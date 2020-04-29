@@ -124,6 +124,7 @@ extern DLL_VARIABLE struct formatstring_parser formatstring_kde_kuit;
 extern DLL_VARIABLE struct formatstring_parser formatstring_boost;
 extern DLL_VARIABLE struct formatstring_parser formatstring_lua;
 extern DLL_VARIABLE struct formatstring_parser formatstring_javascript;
+extern DLL_VARIABLE struct formatstring_parser formatstring_ruby;
 
 /* Table of all format string parsers.  */
 extern DLL_VARIABLE struct formatstring_parser *formatstring_parsers[NFORMATS];

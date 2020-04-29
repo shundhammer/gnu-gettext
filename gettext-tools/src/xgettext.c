@@ -114,6 +114,7 @@
 #include "x-vala.h"
 #include "x-gsettings.h"
 #include "x-desktop.h"
+#include "x-ruby.h"
 
 
 #define SIZEOF(a) (sizeof(a) / sizeof(a[0]))
@@ -189,6 +190,7 @@ static flag_context_list_table_ty flag_table_php;
 static flag_context_list_table_ty flag_table_lua;
 static flag_context_list_table_ty flag_table_javascript;
 static flag_context_list_table_ty flag_table_vala;
+static flag_context_list_table_ty flag_table_ruby;
 
 /* If true, recognize Qt format strings.  */
 static bool recognize_format_qt;
@@ -368,6 +370,7 @@ main (int argc, char *argv[])
   init_flag_table_lua ();
   init_flag_table_javascript ();
   init_flag_table_vala ();
+  init_flag_table_ruby ();
 
   while ((optchar = getopt_long (argc, argv,
                                  "ac::Cd:D:eEf:Fhijk::l:L:m::M::no:p:sTVw:W:x:",
@@ -1066,7 +1069,7 @@ Choice of input file language:\n"));
                                 EmacsLisp, librep, Scheme, Smalltalk, Java,\n\
                                 JavaProperties, C#, awk, YCP, Tcl, Perl, PHP,\n\
                                 GCC-source, NXStringTable, RST, RSJ, Glade,\n\
-                                Lua, JavaScript, Vala, Desktop)\n"));
+                                Lua, JavaScript, Vala, Desktop, Ruby)\n"));
       printf (_("\
   -C, --c++                   shorthand for --language=C++\n"));
       printf (_("\
@@ -1124,7 +1127,7 @@ Language specific options:\n"));
                                 (only languages C, C++, ObjectiveC, Shell,\n\
                                 Python, Lisp, EmacsLisp, librep, Scheme, Java,\n\
                                 C#, awk, YCP, Tcl, Perl, PHP, GCC-source,\n\
-                                Lua, JavaScript, Vala)\n"));
+                                Lua, JavaScript, Vala, Ruby)\n"));
       printf (_("\
   -T, --trigraphs             understand ANSI C trigraphs for input\n"));
       printf (_("\
@@ -1592,6 +1595,11 @@ xgettext_record_flag (const char *optionstring)
                                                     name_start, name_end,
                                                     argnum, value, pass);
                     break;
+                  case format_ruby:
+                    flag_context_list_table_insert (&flag_table_ruby, 0,
+                                                    name_start, name_end,
+                                                    argnum, value, pass);
+                    break;
                   default:
                     abort ();
                   }
@@ -2055,6 +2063,7 @@ language_to_extractor (const char *name)
     SCANNERS_GSETTINGS
     SCANNERS_DESKTOP
     SCANNERS_APPDATA
+    SCANNERS_RUBY
     /* Here may follow more languages and their scanners: pike, etc...
        Make sure new scanners honor the --exclude-file option.  */
   };
@@ -2145,6 +2154,7 @@ extension_to_language (const char *extension)
     EXTENSIONS_GSETTINGS
     EXTENSIONS_DESKTOP
     EXTENSIONS_APPDATA
+    EXTENSIONS_RUBY
     /* Here may follow more file extensions... */
   };
 
